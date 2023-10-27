@@ -19,7 +19,7 @@ public class Professor implements Serializable{
     private String email;
     private String password;
     private String education;
-    private String condition;
+    private Boolean condition;
     
     public Long getId() {
         return id;
@@ -51,10 +51,10 @@ public class Professor implements Serializable{
     public void setEducation(String education) {
         this.education = education;
     }
-    public String getCondition() {
+    public Boolean getCondition() {
         return condition;
     }
-    public void setCondition(String condition) {
+    public void setCondition(Boolean condition) {
         this.condition = condition;
     }
     @Override

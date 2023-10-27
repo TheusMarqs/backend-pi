@@ -6,7 +6,7 @@ public record ProfessorResponse(
     String email,
     String password,
     String education,
-    String condition
+    Boolean condition
 )  {
     
 }
