@@ -1,4 +1,4 @@
-package fatec.pi.pi.dtos;
+package fatec.pi.pi.dtos.professor;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

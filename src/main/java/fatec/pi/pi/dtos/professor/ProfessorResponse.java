@@ -1,4 +1,4 @@
-package fatec.pi.pi.dtos;
+package fatec.pi.pi.dtos.professor;
 
 public record ProfessorResponse(
     long id,

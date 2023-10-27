@@ -1,7 +1,7 @@
 package fatec.pi.pi.mappers;
 
-import fatec.pi.pi.dtos.ProfessorRequest;
-import fatec.pi.pi.dtos.ProfessorResponse;
+import fatec.pi.pi.dtos.professor.ProfessorRequest;
+import fatec.pi.pi.dtos.professor.ProfessorResponse;
 import fatec.pi.pi.entities.Professor;
 
 public class ProfessorMapper {

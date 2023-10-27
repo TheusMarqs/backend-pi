@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fatec.pi.pi.dtos.ProfessorRequest;
-import fatec.pi.pi.dtos.ProfessorResponse;
+import fatec.pi.pi.dtos.professor.ProfessorRequest;
+import fatec.pi.pi.dtos.professor.ProfessorResponse;
 import fatec.pi.pi.entities.Professor;
 import fatec.pi.pi.mappers.ProfessorMapper;
 import fatec.pi.pi.repositories.ProfessorRepository;
