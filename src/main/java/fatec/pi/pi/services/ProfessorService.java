@@ -19,8 +19,8 @@ public class ProfessorService {
     private ProfessorRepository repository;
 
     public List<ProfessorResponse> getProfessorResponses() {
-        List<Professor> students = repository.findAll();
-        return students.stream()
+        List<Professor> professors = repository.findAll();
+        return professors.stream()
                 .map(ProfessorMapper::toDTO)
                 .collect(Collectors.toList());
     }
