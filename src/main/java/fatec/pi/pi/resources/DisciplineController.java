@@ -17,51 +17,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import fatec.pi.pi.dtos.team.TeamRequest;
-import fatec.pi.pi.dtos.team.TeamResponse;
-import fatec.pi.pi.services.TeamService;
+import fatec.pi.pi.dtos.discipline.DisciplineRequest;
+import fatec.pi.pi.dtos.discipline.DisciplineResponse;
+import fatec.pi.pi.services.DisciplineService;
 
 @RestController
-@RequestMapping("teams")
+@RequestMapping("disciplines")
 @CrossOrigin
-public class TeamController {
+public class DisciplineController {
     @Autowired
-    private TeamService service;
+    private DisciplineService service;
 
     @GetMapping
-    public ResponseEntity<List<TeamResponse>> getTeams() {
-        var teams = this.service.getTeamResponses();
-        return ResponseEntity.ok(teams);
+    public ResponseEntity<List<DisciplineResponse>> getDisciplines() {
+        var disciplines = this.service.getDisciplineResponses();
+        return ResponseEntity.ok(disciplines);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<TeamResponse> getTeam(@PathVariable long id) {
-        var team = this.service.getTeamResponse(id);
-        return ResponseEntity.ok(team);
+    public ResponseEntity<DisciplineResponse> getTeam(@PathVariable long id) {
+        var disciplines = this.service.getDisciplineResponse(id);
+        return ResponseEntity.ok(disciplines);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteTeam(@PathVariable long id) {
-        this.service.deleteTeamById(id);
+    public ResponseEntity<Void> deleteDiscipline(@PathVariable long id) {
+        this.service.deleteDisciplineById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
-    public ResponseEntity<TeamResponse> save(@Validated @RequestBody TeamRequest team) {
-        var savedTeam = this.service.save(team);
+    public ResponseEntity<DisciplineResponse> save(@Validated @RequestBody DisciplineRequest discipline) {
+        var savedDiscipline = this.service.save(discipline);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedTeam.id())
+                .buildAndExpand(savedDiscipline.id())
                 .toUri();
-        return ResponseEntity.created(location).body(savedTeam);
+        return ResponseEntity.created(location).body(savedDiscipline);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@RequestBody TeamRequest team,
+    public ResponseEntity<Void> update(@RequestBody DisciplineRequest discipline,
                                        @PathVariable long id
     ){
-        this.service.update(id, team);
+        this.service.update(id, discipline);
         return ResponseEntity.ok().build();
     }
 }

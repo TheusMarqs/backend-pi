@@ -39,18 +39,18 @@ public class TeamService {
         }
     }
 
-    public TeamResponse save(TeamRequest course) {
-        var entity = this.repository.save(TeamMapper.toEntity(course));
+    public TeamResponse save(TeamRequest team) {
+        var entity = this.repository.save(TeamMapper.toEntity(team));
         return TeamMapper.toDTO(entity);
     }
 
-    public void update(long id, TeamRequest course) {
+    public void update(long id, TeamRequest team) {
         try {
             var updateTeam = this.repository.getReferenceById(id);
-            updateTeam.setCourse(Integer.parseInt(course.course()));
-            updateTeam.setStudents(Integer.parseInt(course.students()));
-            updateTeam.setSemester(Integer.parseInt(course.semester()));
-            updateTeam.setPeriod(course.period());
+            updateTeam.setCourse(Integer.parseInt(team.course()));
+            updateTeam.setStudents(Integer.parseInt(team.students()));
+            updateTeam.setSemester(Integer.parseInt(team.semester()));
+            updateTeam.setPeriod(team.period());
             this.repository.save(updateTeam);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Team not found");
