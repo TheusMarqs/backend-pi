@@ -1,5 +1,7 @@
 package fatec.pi.pi.dtos.team;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 
 public record TeamRequest( 
@@ -13,6 +15,8 @@ public record TeamRequest(
     String semester,
 
     @NotBlank(message = "Período não pode ser em branco")
-    String period
+    String period,
+
+    List<Integer> time
     )
 {}

@@ -11,6 +11,7 @@ public class TeamMapper {
         team.setStudents(Integer.parseInt(request.students()));
         team.setSemester(Integer.parseInt(request.semester()));
         team.setPeriod(request.period());
+        team.setTime(request.time());
         return team;
     }
 
@@ -20,7 +21,8 @@ public class TeamMapper {
             team.getCourse(),
             team.getStudents(),
             team.getSemester(),
-            team.getPeriod()
+            team.getPeriod(),
+            team.getTime()
         );
     }
 }

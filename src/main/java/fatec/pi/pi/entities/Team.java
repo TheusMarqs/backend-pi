@@ -1,5 +1,7 @@
 package fatec.pi.pi.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ public class Team {
     private Integer students;
     private Integer semester;
     private String period;
+    private List<Integer> time;
     
     public Long getId() {
         return id;
@@ -49,6 +52,8 @@ public class Team {
         this.period = period;
     }
 
+    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -72,6 +77,13 @@ public class Team {
             return false;
         return true;
     }
+    public List<Integer> getTime() {
+        return time;
+    }
+    public void setTime(List<Integer> time) {
+        this.time = time;
+    }
+    
 
     
 }
