@@ -1,5 +1,7 @@
 package fatec.pi.pi.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="TBL_DISCIPLINE")
-public class Discipline {
+public class Discipline implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

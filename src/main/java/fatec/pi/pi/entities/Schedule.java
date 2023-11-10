@@ -9,28 +9,60 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="TBL_TIME")
-public class Time implements Serializable{
+@Table(name="TBL_SCHEDULE")
+public class Schedule implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String time;
+    private String day;
+    private Integer time;
+    private Integer professor;
+    private Integer classroom;
+    private Integer discipline;
+    private Integer team;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getTime() {
+    public String getDay() {
+        return day;
+    }
+    public void setDay(String day) {
+        this.day = day;
+    }
+    public Integer getTime() {
         return time;
     }
-
-    public void setTime(String time) {
+    public void setTime(Integer time) {
         this.time = time;
+    }
+    public Integer getProfessor() {
+        return professor;
+    }
+    public void setProfessor(Integer professor) {
+        this.professor = professor;
+    }
+    public Integer getClassroom() {
+        return classroom;
+    }
+    public void setClassroom(Integer classroom) {
+        this.classroom = classroom;
+    }
+    public Integer getDiscipline() {
+        return discipline;
+    }
+    public void setDiscipline(Integer discipline) {
+        this.discipline = discipline;
+    }
+    public Integer getTeam() {
+        return team;
+    }
+    public void setTeam(Integer team) {
+        this.team = team;
     }
 
     @Override
@@ -40,7 +72,6 @@ public class Time implements Serializable{
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -49,7 +80,7 @@ public class Time implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Time other = (Time) obj;
+        Schedule other = (Schedule) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -57,8 +88,6 @@ public class Time implements Serializable{
             return false;
         return true;
     }
-    
-    
 
-    
+        
 }

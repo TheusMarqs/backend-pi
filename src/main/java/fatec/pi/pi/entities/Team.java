@@ -1,5 +1,6 @@
 package fatec.pi.pi.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -10,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="TBL_TEAM")
-public class Team {
+public class Team implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
