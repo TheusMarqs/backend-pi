@@ -7,7 +7,7 @@ import fatec.pi.pi.entities.Schedule;
 public class ScheduleMapper {
     public static Schedule toEntity(ScheduleRequest request) {
         Schedule schedule = new Schedule();
-        schedule.setDay(request.day());
+        schedule.setWeekday(request.weekday());
         schedule.setTime(Integer.parseInt(request.time()));
         schedule.setProfessor(Integer.parseInt(request.professor()));
         schedule.setClassroom(Integer.parseInt(request.classroom()));
@@ -19,7 +19,7 @@ public class ScheduleMapper {
     public static ScheduleResponse toDTO(Schedule schedule) {
         return new ScheduleResponse(
             schedule.getId(),
-            schedule.getDay(),
+            schedule.getWeekday(),
             schedule.getTime(),
             schedule.getProfessor(),
             schedule.getClassroom(),

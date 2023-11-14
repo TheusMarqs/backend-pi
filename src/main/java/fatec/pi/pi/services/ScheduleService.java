@@ -47,7 +47,7 @@ public class ScheduleService {
     public void update(long id, ScheduleRequest schedule) {
         try {
             var updateSchedule = this.repository.getReferenceById(id);
-            updateSchedule.setDay(schedule.day());
+            updateSchedule.setWeekday(schedule.weekday());
             updateSchedule.setTime(Integer.parseInt(schedule.time()));
             updateSchedule.setProfessor(Integer.parseInt(schedule.professor()));
             updateSchedule.setClassroom(Integer.parseInt(schedule.classroom()));

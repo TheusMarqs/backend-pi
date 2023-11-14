@@ -14,8 +14,11 @@ public class Schedule implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
 
-    private String day;
+
+
+    private String weekday;
     private Integer time;
     private Integer professor;
     private Integer classroom;
@@ -28,11 +31,11 @@ public class Schedule implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    public String getDay() {
-        return day;
+    public String getWeekday() {
+        return weekday;
     }
-    public void setDay(String day) {
-        this.day = day;
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
     }
     public Integer getTime() {
         return time;
@@ -64,7 +67,6 @@ public class Schedule implements Serializable{
     public void setTeam(Integer team) {
         this.team = team;
     }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -89,5 +91,7 @@ public class Schedule implements Serializable{
         return true;
     }
 
+    
+    
         
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record ScheduleRequest( 
     @NotBlank(message = "Dia não pode ser em branco")
-    String day,
+    String weekday,
     
     @NotBlank(message = "Horário não pode ser em branco")
     String time,
