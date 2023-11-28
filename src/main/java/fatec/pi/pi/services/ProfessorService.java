@@ -51,7 +51,7 @@ public class ProfessorService {
             updateProfessor.setEmail(professor.email());
             updateProfessor.setPassword(professor.password());
             updateProfessor.setEducation(professor.education());
-            updateProfessor.setCondition(professor.condition());
+            updateProfessor.setStatus(professor.status());
             this.repository.save(updateProfessor);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Professor not found");

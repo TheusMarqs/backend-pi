@@ -1,9 +1,5 @@
 package fatec.pi.pi.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fatec.pi.pi.dtos.schedule.ScheduleRequest;
@@ -13,10 +9,18 @@ import fatec.pi.pi.mappers.ScheduleMapper;
 import fatec.pi.pi.repositories.ScheduleRepository;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ScheduleService {
-    @Autowired
-    private ScheduleRepository repository;
+
+    private final ScheduleRepository repository;
+
+    public ScheduleService(ScheduleRepository repository) {
+        this.repository = repository;
+    }
 
     public List<ScheduleResponse> getScheduleResponses() {
         List<Schedule> schedules = repository.findAll();
@@ -28,6 +32,10 @@ public class ScheduleService {
     public ScheduleResponse getScheduleResponse(long id) {
         Schedule schedule = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Schedule not found"));
+
+        // Adicione logs para verificar os dados recuperados
+        System.out.println("Retrieving schedule with id: " + id);
+        System.out.println("Retrieved schedule data: " + schedule);
         return ScheduleMapper.toDTO(schedule);
     }
 
@@ -39,21 +47,30 @@ public class ScheduleService {
         }
     }
 
-    public ScheduleResponse save(ScheduleRequest schedule) {
-        var entity = this.repository.save(ScheduleMapper.toEntity(schedule));
-        return ScheduleMapper.toDTO(entity);
+    public List<ScheduleResponse> save(List<ScheduleRequest> scheduleRequests) {
+        List<Schedule> schedules = scheduleRequests.stream()
+                .map(ScheduleMapper::toEntity)
+                .collect(Collectors.toList());
+        List<Schedule> savedSchedules = repository.saveAll(schedules);
+        return savedSchedules.stream()
+                .map(ScheduleMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public void update(long id, ScheduleRequest schedule) {
+    public void update(long id, List<ScheduleRequest> schedules) {
         try {
-            var updateSchedule = this.repository.getReferenceById(id);
-            updateSchedule.setWeekday(schedule.weekday());
-            updateSchedule.setTime(Integer.parseInt(schedule.time()));
-            updateSchedule.setProfessor(Integer.parseInt(schedule.professor()));
-            updateSchedule.setClassroom(Integer.parseInt(schedule.classroom()));
-            updateSchedule.setDiscipline(Integer.parseInt(schedule.discipline()));
-            updateSchedule.setTeam(Integer.parseInt(schedule.team()));
-            this.repository.save(updateSchedule);
+            var updateSchedules = new ArrayList<Schedule>();
+            for (ScheduleRequest scheduleRequest : schedules) {
+                Schedule schedule = repository.getReferenceById(id);
+                schedule.setWeekday(scheduleRequest.weekday());
+                schedule.setTime(Integer.parseInt(scheduleRequest.time()));
+                schedule.setProfessor(Integer.parseInt(scheduleRequest.professor()));
+                schedule.setClassroom(Integer.parseInt(scheduleRequest.classroom()));
+                schedule.setDiscipline(Integer.parseInt(scheduleRequest.discipline()));
+                schedule.setTeam(Integer.parseInt(scheduleRequest.team()));
+                updateSchedules.add(schedule);
+            }
+            this.repository.saveAll(updateSchedules);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Schedule not found");
         }

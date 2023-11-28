@@ -11,7 +11,7 @@ public class ProfessorMapper {
         professor.setEmail(request.email());
         professor.setPassword(request.password());
         professor.setEducation(request.education());
-        professor.setCondition(request.condition());
+        professor.setStatus(request.status());
         return professor;
     }
 
@@ -22,7 +22,7 @@ public class ProfessorMapper {
                 professor.getEmail(),
                 professor.getPassword(),
                 professor.getEducation(),
-                professor.getCondition()
+                professor.getStatus()
         );
     }
 }

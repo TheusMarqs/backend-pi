@@ -20,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import fatec.pi.pi.dtos.schedule.ScheduleRequest;
 import fatec.pi.pi.dtos.schedule.ScheduleResponse;
 import fatec.pi.pi.services.ScheduleService;
-
 @RestController
 @RequestMapping("schedules")
 @CrossOrigin
@@ -47,21 +46,20 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<ScheduleResponse> save(@Validated @RequestBody ScheduleRequest schedule) {
-        var savedSchedule = this.service.save(schedule);
+    public ResponseEntity<List<ScheduleResponse>> save(@Validated @RequestBody List<ScheduleRequest> scheduleRequests) {
+        var savedSchedules = this.service.save(scheduleRequests);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedSchedule.id())
+                .buildAndExpand(savedSchedules.get(0).id())  // Assuming the first schedule in the list
                 .toUri();
-        return ResponseEntity.created(location).body(savedSchedule);
+        return ResponseEntity.created(location).body(savedSchedules);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@RequestBody ScheduleRequest schedule,
-                                       @PathVariable long id
-    ){
-        this.service.update(id, schedule);
+    public ResponseEntity<Void> update(@RequestBody List<ScheduleRequest> scheduleRequests,
+                                       @PathVariable long id) {
+        this.service.update(id, scheduleRequests);
         return ResponseEntity.ok().build();
     }
 }

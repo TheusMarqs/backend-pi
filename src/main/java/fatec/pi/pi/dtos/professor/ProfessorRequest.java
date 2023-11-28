@@ -16,6 +16,6 @@ public record ProfessorRequest (
     @NotBlank(message = "Formação não pode ser em branco")
     String education,
 
-    Boolean condition
+    Boolean status
 ) {
 }
