@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import fatec.pi.pi.dtos.schedule.ScheduleRequest;
 import fatec.pi.pi.dtos.schedule.ScheduleResponse;
 import fatec.pi.pi.services.ScheduleService;
+
 @RestController
 @RequestMapping("schedules")
 @CrossOrigin
@@ -33,10 +35,10 @@ public class ScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<ScheduleResponse> getSchedule(@PathVariable long id) {
-        var schedule = this.service.getScheduleResponse(id);
-        return ResponseEntity.ok(schedule);
+    @GetMapping("{teamId}/{dayId}")
+    public ResponseEntity<List<ScheduleResponse>> getSchedule(@PathVariable int teamId, @PathVariable int dayId) {
+        var schedules = this.service.getScheduleResponseByWeekday(dayId);
+        return ResponseEntity.ok(schedules);
     }
 
     @DeleteMapping("{id}")
@@ -51,15 +53,16 @@ public class ScheduleController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedSchedules.get(0).id())  // Assuming the first schedule in the list
+                .buildAndExpand(savedSchedules.get(0).id()) // Assuming the first schedule in the list
                 .toUri();
         return ResponseEntity.created(location).body(savedSchedules);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Void> update(@RequestBody List<ScheduleRequest> scheduleRequests,
-                                       @PathVariable long id) {
-        this.service.update(id, scheduleRequests);
+    @PutMapping("{weekdayId}")
+    public ResponseEntity<Void> updateSchedulesByWeekday(@PathVariable int weekdayId,
+            @RequestBody List<ScheduleRequest> schedules) {
+        this.service.updateSchedulesByWeekday(weekdayId, schedules);
         return ResponseEntity.ok().build();
     }
+
 }

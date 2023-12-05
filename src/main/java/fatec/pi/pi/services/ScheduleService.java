@@ -29,15 +29,47 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    public ScheduleResponse getScheduleResponse(long id) {
-        Schedule schedule = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Schedule not found"));
-
+    public List<ScheduleResponse> getScheduleResponseByWeekday(int dayOfWeek) {
+        // Realize a lógica de mapeamento do número para o dia da semana como uma String
+        String weekday = mapNumberToWeekday(dayOfWeek);
+    
+        // Chame o método do repositório usando a String mapeada
+        List<Schedule> schedules = repository.findByWeekday(weekday);
+    
+        if (schedules.isEmpty()) {
+            throw new EntityNotFoundException("Schedules not found for weekday: " + weekday);
+        }
+    
         // Adicione logs para verificar os dados recuperados
-        System.out.println("Retrieving schedule with id: " + id);
-        System.out.println("Retrieved schedule data: " + schedule);
-        return ScheduleMapper.toDTO(schedule);
+        System.out.println("Retrieving schedules with weekday: " + weekday);
+        schedules.forEach(schedule -> System.out.println("Retrieved schedule data: " + schedule));
+    
+        return schedules.stream()
+                .map(ScheduleMapper::toDTO)
+                .collect(Collectors.toList());
     }
+    
+    private String mapNumberToWeekday(int dayOfWeek) {
+        // Adapte esta lógica conforme necessário
+        switch (dayOfWeek) {
+            case 1:
+                return "Segunda-feira";
+            case 2:
+                return "Terça-feira";
+            case 3:
+                return "Quarta-feira";
+            case 4:
+                return "Quinta-feira";
+            case 5:
+                return "Sexta-feira";
+            case 6:
+                return "Sábado";
+            default:
+                throw new IllegalArgumentException("Invalid day of week: " + dayOfWeek);
+        }
+    }
+    
+    
 
     public void deleteScheduleById(long id) {
         if (this.repository.existsById(id)) {
@@ -57,22 +89,28 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    public void update(long id, List<ScheduleRequest> schedules) {
+    public void updateSchedulesByWeekday(int weekdayId, List<ScheduleRequest> schedules) {
+        String weekday = mapNumberToWeekday(weekdayId);
         try {
-            var updateSchedules = new ArrayList<Schedule>();
-            for (ScheduleRequest scheduleRequest : schedules) {
-                Schedule schedule = repository.getReferenceById(id);
-                schedule.setWeekday(scheduleRequest.weekday());
-                schedule.setTime(Integer.parseInt(scheduleRequest.time()));
-                schedule.setProfessor(Integer.parseInt(scheduleRequest.professor()));
-                schedule.setClassroom(Integer.parseInt(scheduleRequest.classroom()));
-                schedule.setDiscipline(Integer.parseInt(scheduleRequest.discipline()));
-                schedule.setTeam(Integer.parseInt(scheduleRequest.team()));
-                updateSchedules.add(schedule);
+            List<Schedule> existingSchedules = repository.findByWeekday(weekday);
+
+            for (int i = 0; i < existingSchedules.size(); i++) {
+                Schedule existingSchedule = existingSchedules.get(i);
+                ScheduleRequest updatedScheduleRequest = schedules.get(i);
+
+                // Atualize os atributos do agendamento conforme necessário
+                existingSchedule.setTime(Integer.parseInt(updatedScheduleRequest.time()));
+                existingSchedule.setProfessor(Integer.parseInt(updatedScheduleRequest.professor()));
+                existingSchedule.setClassroom(Integer.parseInt(updatedScheduleRequest.classroom()));
+                existingSchedule.setDiscipline(Integer.parseInt(updatedScheduleRequest.discipline()));
+                existingSchedule.setTeam(Integer.parseInt(updatedScheduleRequest.team()));
+
+                // Salve as alterações no agendamento
+                repository.save(existingSchedule);
             }
-            this.repository.saveAll(updateSchedules);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Schedule not found");
+            throw new EntityNotFoundException("Schedules not found for the given weekday");
         }
     }
+    
 }
